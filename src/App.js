@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Suspense, lazy } from "react";
 
-function App() {
+import './App.css';
+import FullScreenLoading from "./Components/FullScreenLoad";
+
+const MainPage = lazy(() => import("./MainPage"));
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/home" element={<div>Home</div>} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="/amplio/v2" element={(
+        <>
+          <Suspense fallback={<FullScreenLoading />}>
+            <MainPage />
+          </Suspense>
+        </>)} />
+    </Routes>
   );
 }
 
